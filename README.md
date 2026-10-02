@@ -35,7 +35,13 @@ git clone --recurse-submodules <this repo>
 ./build.sh
 ```
 
-Output: `armbian-build/output/images/Armbian-*_Jetson-nano_resolute_current_*_xfce_desktop.img(.xz)`.
+Output: `armbian-build/output/images/Armbian-*_Jetson-nano_resolute_current_*_xfce_desktop.img.xz` (+ `.sha`).
+
+First successful build (2026-10-02, armbian/build `5a87a9a`, ~37 min, kernel and XFCE rootfs pulled from
+Armbian's remote cache): `Armbian-unofficial_26.11.0-trunk_Jetson-nano_resolute_current_6.18.54_xfce_desktop.img.xz`,
+1.8 GB (9.2 GB raw). Checked offline: ESP has `EFI/BOOT/BOOTAA64.EFI`; GRUB loads `vmlinuz-6.18.54` + initrd +
+`tegra210-p3450-0000` DTB; initrd contains `sdhci-tegra`, `xhci-tegra` + `nvidia/tegra210/xusb.bin`, `phy-tegra-xusb`,
+`r8169` + `rtl_nic`; rootfs has `nvidia/gm20b` firmware and Mesa `tegra_dri`/`nouveau_dri`.
 
 Extra framework options can be passed through, e.g. `./build.sh jetson-nano-xfce KERNEL_CONFIGURE=yes`.
 
