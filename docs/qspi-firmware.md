@@ -41,8 +41,18 @@ numbers against the carrier silkscreen. Never connect the adapter's VCC pin.
 
 This is also the console Armbian uses (`console=ttyS0,115200n8`), so it's very useful for first-boot debugging.
 
-### C. A working JetPack SD card is already in use
+### C. A working JetPack SD card is already in use (SSH / CLI)
 
+The most direct check reads the U-Boot version string straight from the QSPI flash:
+```
+cat /proc/mtd                       # mtd0: 00400000 00001000 "spi32766.0"  (4 MiB QSPI)
+sudo strings /dev/mtd0 | grep -m3 -E 'U-Boot 20[0-9]{2}\.[0-9]{2}'
+```
+`U-Boot 2020.04-...` means U-Boot is in QSPI (L4T 32.5+) and the board is good to go. No match means it's too old.
+
+Our board (checked 2026-10-02): `U-Boot 2020.04-g46e4604c78 (Jul 26 2021 - 12:09:42 -0700)`, i.e. JetPack 4.6 / L4T 32.6.x. OK.
+
+Other checks:
 ```
 cat /etc/nv_tegra_release           # e.g. "# R32 (release), REVISION: 7.x"
 dpkg -l nvidia-l4t-bootloader       # this package writes QSPI on boot
