@@ -23,6 +23,12 @@ graphics, so there's no NVIDIA L4T and no CUDA.
 ## Build
 
 Requirements: x86_64 or arm64 Linux, Docker (the framework runs the build in a container), about 60 GB free disk.
+On an x86_64 host, the arm64 QEMU binfmt handler must be registered **on the host** (the container can't do it):
+
+```sh
+sudo apt-get install -y qemu-user-static binfmt-support
+ls /proc/sys/fs/binfmt_misc/ | grep qemu-aarch64   # must print qemu-aarch64
+```
 
 ```sh
 git clone --recurse-submodules <this repo>
